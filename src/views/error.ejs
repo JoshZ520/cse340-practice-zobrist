@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p><%= message %></p>
+    
+    <% if (typeof error !== 'undefined' && error.stack) { %>
+        <div class="error-details">
+            <h2>Error Details (Development Mode)</h2>
+            <pre><%= error.stack %></pre>
+        </div>
+    <% } %>
+    
+    <div class="back-link">
+        <a href="/">&larr; Return to Home</a>
+    </div>
+</main>
+<%- include('partials/footer') %>
