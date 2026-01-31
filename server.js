@@ -26,6 +26,30 @@ import routes from './src/controllers/routes.js';
 // Use routes
 app.use('/', routes);
 
+// 404 Handler - Catch unhandled routes
+app.use((req, res, next) => {
+    res.status(404).render('error', {
+        title: '404 - Page Not Found',
+        message: `The page you are looking for does not exist: ${req.url}`
+    });
+});
+
+// Error Handler - Must have 4 parameters (err, req, res, next)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    
+    const statusCode = err.status || 500;
+    const message = NODE_ENV === 'development' 
+        ? err.message 
+        : 'An unexpected error occurred';
+    
+    res.status(statusCode).render('error', {
+        title: `Error ${statusCode}`,
+        message: message,
+        error: NODE_ENV === 'development' ? err : {}
+    });
+});
+
 
 // Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
