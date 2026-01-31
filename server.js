@@ -13,31 +13,18 @@ const NODE_ENV = process.env.NODE_ENV || 'production';
 // Create an instance of an Express application
 const app = express();
 
-
+// Static files middleware
 app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- * Routes
- */
-app.get('/', (req, res) => {
-    const title = 'Welcome Home';
-    res.render('home', { title });
-});
-
-app.get('/about', (req, res) => {
-    const title = 'About';
-    res.render('about', { title });
-});
-
-app.get('/products', (req, res) => {
-    const title = 'Our Products';
-    res.render('products', { title });
-});
-
-
+// View engine setup
 app.set('view engine', 'ejs');
-
 app.set('views', path.join(__dirname, 'src/views'));
+
+// Import routes
+import routes from './src/controllers/routes.js';
+
+// Use routes
+app.use('/', routes);
 
 
 // Define the port number the server will listen on

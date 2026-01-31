@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    
+    <div class="sort-controls">
+        <p>Sort by: 
+            <a href="/faculty?sortBy=name" class="<%= sortBy === 'name' ? 'active' : '' %>">Name</a> | 
+            <a href="/faculty?sortBy=department" class="<%= sortBy === 'department' ? 'active' : '' %>">Department</a> | 
+            <a href="/faculty?sortBy=title" class="<%= sortBy === 'title' ? 'active' : '' %>">Title</a>
+        </p>
+    </div>
+
+    <div class="faculty-grid">
+        <% facultyList.forEach(function(faculty) { %>
+            <div class="faculty-card">
+                <h2>
+                    <a href="/faculty/<%= faculty.id %>"><%= faculty.name %></a>
+                </h2>
+                <p class="department"><strong>Department:</strong> <%= faculty.department %></p>
+                <p class="title"><strong>Title:</strong> <%= faculty.title %></p>
+            </div>
+        <% }); %>
+    </div>
+</main>
+<%- include('../partials/footer') %>
