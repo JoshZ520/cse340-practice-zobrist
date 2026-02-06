@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<main>
+    <div class="error-page">
+        <h1>500 - <%= title %></h1>
+        <p><%= error %></p>
+        
+        <% if (stack) { %>
+            <div class="error-details">
+                <h2>Error Details (Development Mode)</h2>
+                <pre><%= stack %></pre>
+            </div>
+        <% } %>
+
+        <div class="back-link">
+            <a href="/">&larr; Return to Home</a>
+        </div>
+    </div>
+</main>
+<%- include('../partials/footer') %>
