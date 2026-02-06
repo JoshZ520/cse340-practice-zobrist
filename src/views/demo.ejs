@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    
+    <p>This page demonstrates custom middleware functionality.</p>
+    
+    <div class="demo-info">
+        <h2>Custom Headers Added by Middleware</h2>
+        <p>This page has custom headers added by the demo middleware:</p>
+        <ul>
+            <li><strong>X-Demo-Page:</strong> true</li>
+            <li><strong>X-Middleware-Demo:</strong> This is a middleware demo header</li>
+        </ul>
+        
+        <p>Open your browser's developer tools and check the Response Headers in the Network tab to see these custom headers!</p>
+    </div>
+
+    <div class="back-link">
+        <a href="/">&larr; Back to Home</a>
+    </div>
+</main>
+<%- include('partials/footer') %>

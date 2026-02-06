@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+<main>
+    <div class="course-detail">
+        <h1><%= course.id %>: <%= course.title %></h1>
+        
+        <div class="course-info">
+            <p><strong>Department:</strong> <%= course.department %></p>
+            <p><strong>Credits:</strong> <%= course.credits %></p>
+            <p><strong>Description:</strong> <%= course.description %></p>
+        </div>
+
+        <h2>Available Sections</h2>
+        
+        <div class="sort-controls">
+            <p>Sort by: 
+                <a href="/catalog/<%= course.id %>?sort=time" class="<%= currentSort === 'time' ? 'active' : '' %>">Time</a> | 
+                <a href="/catalog/<%= course.id %>?sort=professor" class="<%= currentSort === 'professor' ? 'active' : '' %>">Professor</a> | 
+                <a href="/catalog/<%= course.id %>?sort=room" class="<%= currentSort === 'room' ? 'active' : '' %>">Room</a>
+            </p>
+        </div>
+
+        <div class="sections-list">
+            <% course.sections.forEach(function(section) { %>
+                <div class="section-card">
+                    <p><strong>Time:</strong> <%= section.time %></p>
+                    <p><strong>Room:</strong> <%= section.room %></p>
+                    <p><strong>Professor:</strong> <%= section.professor %></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <div class="back-link">
+            <a href="/catalog">&larr; Back to Course Catalog</a>
+        </div>
+    </div>
+</main>
+<%- include('partials/footer') %>

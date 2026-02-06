@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    
+    <div class="course-list">
+        <% Object.values(courses).forEach(function(course) { %>
+            <div class="course-card">
+                <h2>
+                    <a href="/catalog/<%= course.id %>"><%= course.id %>: <%= course.title %></a>
+                </h2>
+                <p class="department"><strong>Department:</strong> <%= course.department %></p>
+                <p class="credits"><strong>Credits:</strong> <%= course.credits %></p>
+                <p class="description"><%= course.description %></p>
+                <p class="sections"><strong>Sections Available:</strong> <%= course.sections.length %></p>
+            </div>
+        <% }); %>
+    </div>
+</main>
+<%- include('partials/footer') %>
