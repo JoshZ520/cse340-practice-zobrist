@@ -1,18 +1,23 @@
-// Import express router
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
+import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
+import { catalogPage, courseDetailPage } from './catalog/catalog.js';
+import { addDemoHeaders } from '../middleware/demo/headers.js';
 
-// Import controllers
-import { catalogController } from './index.js';
-import { facultyController } from './faculty/faculty.js';
+// Create a new router instance
+const router = Router();
 
-// Define routes
-router.get('/', catalogController.buildHome);
-router.get('/about', catalogController.buildAbout);
-router.get('/products', catalogController.buildProducts);
+// Home and basic pages
+router.get('/', homePage);
+router.get('/about', aboutPage);
 
-// Faculty routes
-router.get('/faculty', facultyController.facultyListPage);
-router.get('/faculty/:facultyId', facultyController.facultyDetailPage);
+// Course catalog routes
+router.get('/catalog', catalogPage);
+router.get('/catalog/:courseId', courseDetailPage);
+
+// Demo page with special middleware
+router.get('/demo', addDemoHeaders, demoPage);
+
+// Route to trigger a test error
+router.get('/test-error', testErrorPage);
 
 export default router;

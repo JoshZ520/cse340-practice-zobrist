@@ -75,29 +75,25 @@ const faculty = {
 };
 
 const getFacultyById = (facultyId) => {
-    // Look up faculty member by ID, return null if not found
     return faculty[facultyId] || null;
 };
 
 const getSortedFaculty = (sortBy) => {
+    // Validate sortBy parameter, default to 'department' if invalid
+    const validSortFields = ['name', 'department', 'title'];
+    const sortField = validSortFields.includes(sortBy) ? sortBy : 'department';
 
     // Create an array of all faculty members
     const facultyArray = [];
     for (const key in faculty) {
-        // Add each individual faculty object to the array
         facultyArray.push({...faculty[key], id: key});
     }
 
     // Sort the array by the chosen property
     facultyArray.sort((a, b) => {
-        // Compare the property values
-        if (a[sortBy] < b[sortBy]) {
-            return -1;
-        }
-        if (a[sortBy] > b[sortBy]) {
-            return 1;
-        }
-        return 0; // They are equal
+        if (a[sortField] < b[sortField]) return -1;
+        if (a[sortField] > b[sortField]) return 1;
+        return 0;
     });
 
     // Return the sorted array

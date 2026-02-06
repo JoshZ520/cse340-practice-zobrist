@@ -1,32 +1,36 @@
-/* ********************************
- * Catalog Controller
- * Unit 1, Basic Building Blocks
- ********************************* */
+import { getAllCourses, getCourseById, getSortedSections } from '../../models/catalog/catalog.js';
 
-const catalogController = {};
+// Route handler for the course catalog list page
+const catalogPage = (req, res) => {
+    const courses = getAllCourses();
 
-/* ********************************
- * Build home view
- ********************************* */
-catalogController.buildHome = async (req, res) => {
-    const title = 'Welcome Home';
-    res.render('home', { title });
+    res.render('catalog', {
+        title: 'Course Catalog',
+        courses: courses
+    });
 };
 
-/* ********************************
- * Build about view
- ********************************* */
-catalogController.buildAbout = async (req, res) => {
-    const title = 'About';
-    res.render('about', { title });
+// Route handler for individual course detail pages
+const courseDetailPage = (req, res, next) => {
+    const courseId = req.params.courseId;
+    const course = getCourseById(courseId);
+
+    // If course doesn't exist, create 404 error
+    if (!course) {
+        const err = new Error(`Course ${courseId} not found`);
+        err.status = 404;
+        return next(err);
+    }
+
+    // Handle sorting if requested
+    const sortBy = req.query.sort || 'time';
+    const sortedSections = getSortedSections(course.sections, sortBy);
+
+    res.render('course-detail', {
+        title: `${course.id} - ${course.title}`,
+        course: { ...course, sections: sortedSections },
+        currentSort: sortBy
+    });
 };
 
-/* ********************************
- * Build products view
- ********************************* */
-catalogController.buildProducts = async (req, res) => {
-    const title = 'Our Products';
-    res.render('products', { title });
-};
-
-export default catalogController;
+export { catalogPage, courseDetailPage };
