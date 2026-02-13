@@ -1,65 +1,36 @@
-/* ********************************
- * Faculty Controller
- * Unit 1, Basic Building Blocks
- ********************************* */
+// /* ********************************
+//  * Faculty Controller
+//  * Unit 1, Basic Building Blocks
+//  ********************************* */
 
-// Import faculty model functions
-import { getFacultyById, getSortedFaculty } from '../../models/faculty/faculty.js';
+import { getFacultyBySlug, getSortedFaculty } from '../../models/faculty/faculty.js';
 
-const facultyController = {};
+const facultyListPage = async (req, res) => {
+    const validSortOptions = ['name', 'department', 'title'];
+    const sortBy = validSortOptions.includes(req.query.sortBy) ? req.query.sortBy : 'department';
+    const facultyList = await getSortedFaculty(sortBy);
 
-/* ********************************
- * Build faculty list page
- ********************************* */
-facultyController.facultyListPage = async (req, res) => {
-    try {
-        const sortBy = req.query.sortBy || 'department';
-        const facultyList = getSortedFaculty(sortBy);
-        const title = 'Faculty Directory';
-        
-        res.render('faculty/list', { 
-            title, 
-            facultyList,
-            sortBy
-        });
-    } catch (error) {
-        console.error('Error loading faculty list:', error);
-        res.status(500).render('error', {
-            title: 'Error',
-            message: 'Unable to load faculty list'
-        });
-    }
+    res.render('faculty/list', {
+        title: 'Faculty Directory',
+        facultyList,
+        sortBy
+    });
 };
 
-/* ********************************
- * Build faculty detail page
- ********************************* */
-facultyController.facultyDetailPage = async (req, res) => {
-    try {
-        const facultyId = req.params.facultyId;
-        const facultyMember = getFacultyById(facultyId);
-        
-        // Handle invalid faculty ID
-        if (!facultyMember) {
-            return res.status(404).render('error', {
-                title: 'Faculty Not Found',
-                message: `No faculty member found with ID: ${facultyId}`
-            });
-        }
-        
-        const title = facultyMember.name;
-        
-        res.render('faculty/detail', {
-            title,
-            faculty: facultyMember
-        });
-    } catch (error) {
-        console.error('Error loading faculty detail:', error);
-        res.status(500).render('error', {
-            title: 'Error',
-            message: 'Unable to load faculty details'
-        });
+const facultyDetailPage = async (req, res, next) => {
+    const facultySlug = req.params.facultySlug;
+    const facultyMember = await getFacultyBySlug(facultySlug);
+
+    if (Object.keys(facultyMember).length === 0) {
+        const err = new Error(`Faculty member ${facultySlug} not found`);
+        err.status = 404;
+        return next(err);
     }
+
+    res.render('faculty/detail', {
+        title: `${facultyMember.name} - Faculty Profile`,
+        faculty: facultyMember
+    });
 };
 
-export { facultyController };
+export {facultyListPage, facultyDetailPage};

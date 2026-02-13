@@ -1,11 +1,11 @@
 <%- include('partials/header') %>
 <main>
     <div class="course-detail">
-        <h1><%= course.id %>: <%= course.title %></h1>
+        <h1><%= course.courseCode %>: <%= course.name %></h1>
         
         <div class="course-info">
             <p><strong>Department:</strong> <%= course.department %></p>
-            <p><strong>Credits:</strong> <%= course.credits %></p>
+            <p><strong>Credits:</strong> <%= course.creditHours %></p>
             <p><strong>Description:</strong> <%= course.description %></p>
         </div>
 
@@ -13,14 +13,14 @@
         
         <div class="sort-controls">
             <p>Sort by: 
-                <a href="/catalog/<%= course.id %>?sort=time" class="<%= currentSort === 'time' ? 'active' : '' %>">Time</a> | 
-                <a href="/catalog/<%= course.id %>?sort=professor" class="<%= currentSort === 'professor' ? 'active' : '' %>">Professor</a> | 
-                <a href="/catalog/<%= course.id %>?sort=room" class="<%= currentSort === 'room' ? 'active' : '' %>">Room</a>
+                <a href="/catalog/<%= course.slug %>?sort=time" class="<%= currentSort === 'time' ? 'active' : '' %>">Time</a> | 
+                <a href="/catalog/<%= course.slug %>?sort=professor" class="<%= currentSort === 'professor' ? 'active' : '' %>">Professor</a> | 
+                <a href="/catalog/<%= course.slug %>?sort=room" class="<%= currentSort === 'room' ? 'active' : '' %>">Room</a>
             </p>
         </div>
 
         <div class="sections-list">
-            <% course.sections.forEach(function(section) { %>
+            <% sections.forEach(function(section) { %>
                 <div class="section-card">
                     <p><strong>Time:</strong> <%= section.time %></p>
                     <p><strong>Room:</strong> <%= section.room %></p>

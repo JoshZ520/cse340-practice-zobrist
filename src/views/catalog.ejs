@@ -6,12 +6,11 @@
         <% Object.values(courses).forEach(function(course) { %>
             <div class="course-card">
                 <h2>
-                    <a href="/catalog/<%= course.id %>"><%= course.id %>: <%= course.title %></a>
+                    <a href="/catalog/<%= course.slug %>"><%= course.courseCode %>: <%= course.name %></a>
                 </h2>
                 <p class="department"><strong>Department:</strong> <%= course.department %></p>
-                <p class="credits"><strong>Credits:</strong> <%= course.credits %></p>
+                <p class="credits"><strong>Credits:</strong> <%= course.creditHours %></p>
                 <p class="description"><%= course.description %></p>
-                <p class="sections"><strong>Sections Available:</strong> <%= course.sections.length %></p>
             </div>
         <% }); %>
     </div>
