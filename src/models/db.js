@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { Pool } from 'pg';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +38,9 @@ const pool = new Pool({
  */
 let db = null;
 
-if (process.env.NODE_ENV.includes('dev') && process.env.ENABLE_SQL_LOGGING === 'true') {
+const NODE_ENV = (process.env.NODE_ENV || '').toLowerCase();
+
+if (NODE_ENV.includes('dev') && process.env.ENABLE_SQL_LOGGING === 'true') {
     /**
      * In development mode, we wrap the pool to provide query logging.
      * This helps with debugging by showing all executed queries in the console.
